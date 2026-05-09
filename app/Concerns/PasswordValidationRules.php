@@ -3,6 +3,7 @@
 namespace App\Concerns;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 trait PasswordValidationRules
@@ -24,6 +25,10 @@ trait PasswordValidationRules
      */
     protected function currentPasswordRules(): array
     {
+        if(Auth::user()?->provider === 'google'){
+            return [];
+        }
+
         return ['required', 'string', 'current_password'];
     }
 }
